@@ -24,17 +24,7 @@
       </div>
     </div>
     <div class="flex justify-between">
-      <input
-        type="number"
-        id="quantity"
-        name="quantity"
-        min="1"
-        max="5"
-        class="py-2 px-4 w-1/3"
-        v-model="total"
-        step="1"
-        required
-      />
+      <Dropdown :total="total" @changeTotal="changeTotal" />
       <button
         class="text-white font-bold py-2 px-4 rounded w-full col-span-full mt-2 self-end"
         :class="disabled ? 'bg-slate-300' : 'bg-blue-500 hover:bg-blue-700'"
@@ -81,6 +71,9 @@ export default {
     return { movieStore };
   },
   methods: {
+    changeTotal(result) {
+      this.total = result;
+    },
     addSelectedSeat(seat) {
       const alreadySelected = this.selectedSeat.some((item) => item === seat);
       if (alreadySelected) {

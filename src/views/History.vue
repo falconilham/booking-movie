@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100">
+  <div v-if="listBooking.length > 0" class="w-100">
     <div class="px-2">
       <div class="-mx-2">
         <div
@@ -21,6 +21,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div v-else class="h-full flex items-center justify-center">
+    <span class="font-bold font-xl">No History</span>
   </div>
 </template>
 

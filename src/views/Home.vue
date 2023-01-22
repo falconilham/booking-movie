@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100">
+  <div v-if="!movieStore.loading" class="w-100">
     <div class="px-2">
       <div class="grid grid-cols-2 gap-4">
         <div
@@ -20,10 +20,13 @@
       </div>
     </div>
   </div>
+  <div v-else class="h-full flex items-center justify-center">
+    <Loading :loading="movieStore.loading" />
+  </div>
 </template>
 <script>
 import { useMovieStore } from "../stores/movie";
-
+import Loading from "../components/Loading.vue";
 export default {
   setup() {
     const movieStore = useMovieStore();
@@ -32,6 +35,9 @@ export default {
   computed: {
     console: () => console,
     window: () => window,
+  },
+  components: {
+    Loading,
   },
   mounted() {
     this.movieStore.getMovies();

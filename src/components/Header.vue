@@ -1,8 +1,6 @@
 <template>
   <div v-if="!isInHome" class="w-full">
-    <div @click="$router.go(-1)" class="w-10 p-1">
-      <!-- <img src="https://img.icons8.com/sf-black/64/null/long-arrow-left.png" /> -->
-      <!-- <span class="font-extrabold text-8xl">{{ "<" }}</span> -->
+    <div @click="backButton" class="w-10 p-1">
       <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24">
         >
         <path
@@ -19,6 +17,13 @@ export default {
     GenerateURL() {
       var fullUrl = this.$route.path;
       return fullUrl;
+    },
+    backButton() {
+      if (this.$route.path === "/history") {
+        this.$router.push("/");
+      } else {
+        this.$router.go(-1);
+      }
     },
   },
   computed: {

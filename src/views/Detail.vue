@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col justify-between">
+  <div v-if="!movieStore.loading" class="h-full flex flex-col justify-between">
     <div class="grid gap-y-5">
       <img
         :src="movieDetail.Poster"
@@ -16,15 +16,22 @@
       Book
     </button>
   </div>
+  <div v-else class="h-full flex items-center justify-center">
+    <Loading :loading="movieStore.loading" />
+  </div>
 </template>
 <script>
 import { useMovieStore } from "../stores/movie";
+import Loading from "../components/Loading.vue";
 export default {
   name: "Detail",
   data() {
     return {
       movieDetail: {},
     };
+  },
+  components: {
+    Loading,
   },
   setup() {
     const movieStore = useMovieStore();

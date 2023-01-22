@@ -5,7 +5,8 @@ export const useMovieStore = defineStore("movie", {
     state: () => {
         return {
             movies: [],
-            listBooking: []
+            listBooking: [],
+            loading: false
         }
     },
     getters: {
@@ -20,6 +21,7 @@ export const useMovieStore = defineStore("movie", {
             this.listBooking = currentListBooking
         },
         async getMovies() {
+            this.loading = true
             try {
                 const data = await api.get('', {
                     params: {
@@ -28,21 +30,26 @@ export const useMovieStore = defineStore("movie", {
                     }
                 });
                 this.movies = data.data.Search;
+                this.loading = false
             } catch (error) {
                 alert(error);
                 console.log(error);
+                this.loading = false
             }
         },
         async getMovie(imdbID) {
+            this.loading = true
             try {
                 const getDetailMovie = await api.get('', {
                     params: {
                         i: imdbID
                     }
                 })
+                this.loading = false
                 return getDetailMovie.data
             } catch (error) {
                 alert(error)
+                this.loading = false
                 console.log(error);
             }
         }

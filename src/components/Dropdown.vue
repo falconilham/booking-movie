@@ -1,50 +1,80 @@
 <template>
-  <div>
-    <div class="relative">
-      <!-- Dropdown toggle button -->
-      <button
-        @click="show = !show"
-        class="flex items-center p-2 text-white rounded-md button-dropdown w-full justify-between"
-      >
-        <span class="mr-4">Popularity</span>
+  <div class="dropdown w-40 items-end flex" id="dropdown-button">
+    <button
+      class="border-2 font-semibold px-2 rounded flex items-center w-full z-0 justify-between mr-2 z-0"
+      v-if="!show"
+    >
+      <div class="w-full" @click="openDropDown">
+        <span class="mr-1">{{ total }}</span>
+      </div>
+      <div>
         <svg
-          class="w-5 h-5 text-indigo-100 dark:text-white"
-          :class="show && 'origin-center rotate-180'"
+          class="fill-current h-4 w-4 rotate-180"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
-          fill="currentColor"
+          @click="increment"
         >
           <path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
+            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
           />
         </svg>
-      </button>
-
-      <!-- Dropdown menu -->
-      <div
-        v-show="show"
-        class="absolute right-0 py-2 mt-2 bg-black rounded-md shadow-xl w-44 left-0 z-[1] w-full"
-      >
-        <router-link
-          v-for="(item, key) in 5"
-          v-bind:key="key"
-          to="/"
-          class="block px-4 py-2 text-sm text-indigo-100 hover:text-indigo-100 w-max"
+        <svg
+          class="fill-current h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          @click="decrement"
         >
-          {{ item }}
-        </router-link>
+          <path
+            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+          />
+        </svg>
       </div>
-    </div>
+    </button>
+    <ul v-if="show" class="dropdown-menu pt-1 absolute w-full">
+      <li
+        v-for="i in 5"
+        v-bind:key="i"
+        @click="selectNumber(i)"
+        class="border-2 bg-slate-300"
+      >
+        <a class="rounded-t py-2 px-4 block whitespace-no-wrap text-black">{{
+          i
+        }}</a>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
 export default {
+  props: ["total"],
   data() {
     return {
       show: false,
     };
+  },
+  methods: {
+    selectNumber(i) {
+      this.$emit("changeTotal", i);
+      this.show = false;
+    },
+    openDropDown() {
+      console.log("click");
+      this.show = true;
+    },
+    increment() {
+      if (this.total === 5) {
+        this.$emit("changeTotal", 5);
+      } else {
+        this.$emit("changeTotal", this.total + 1);
+      }
+    },
+    decrement() {
+      if (this.total === 0) {
+        this.$emit("changeTotal", 0);
+      } else {
+        this.$emit("changeTotal", this.total - 1);
+      }
+    },
   },
 };
 </script>
